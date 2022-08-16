@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # Not found page 404
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get -y install nginx
+
+apt-get update
+apt-get -y upgrade
+apt-get -y install nginx
+
 ufw allow 'Nginx HTTP'
-sudo echo "Hello World" > /var/www/html/index.nginx-debian.html
-sudo echo "Ceci n'est pas une page" > /var/www/html/404.html
-sudo sed -i '/server_name _;/a location /redirect_me { rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent; }' /etc/nginx/sites-available/default
-sudo sed -i '/server_name _;/a error_page 404 /404.html;\nlocation = /404.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
-sudo service nginx restart
+
+echo "Hello World" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+sed -i '/server_name _;/a location /redirect_me { rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4/ permanent; }' /etc/nginx/sites-available/default
+sed -i '/server_name _;/a error_page 404 /404.html;\nlocation = /404.html {\nroot /var/www/html;\ninternal;\n}' /etc/nginx/sites-available/default
+service nginx restart
