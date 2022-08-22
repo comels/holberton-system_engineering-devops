@@ -17,6 +17,6 @@ apt-get install haproxy
 #   server 4255-web-02 50.16.118.128:80
 
 sed -i "$ a myfrontend\n\tbind *:80\n\tmode http\n\tdefault_backend web_servers\n" /etc/haproxy/haproxy.cfg
-sed -i "$ a backend web_servers\n\tbalance roundrobin\n\tserver $HOSTNAME 54.242.35.218:80 check\n\tserver $HOSTNAME 50.16.118.128:80 check" /etc/haproxy/haproxy.cfg
+sed -i "$ a backend web_servers\n\tbalance roundrobin\n\tserver web1 54.242.35.218:80 check\n\tserver web2 50.16.118.128:80 check" /etc/haproxy/haproxy.cfg
 
 sudo service haproxy start
