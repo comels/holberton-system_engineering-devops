@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
-# Bash script that will display information about subdomains
-
-display_domain () {
-	domain=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
-	echo "$2 $domain" | awk '{print "The subdomain "$1" is a "$2" record and points to "$3""}'
+# display information about subdomains
+myecho() {
+	echo "The subdomain $1 is a $2 record and points to $3"
 }
 
-if [ "$#" == "1" ]
+if [[ -z "$2" ]]
 then
-	display_domain "$1" "www"
-	display_domain "$1" "lb-01"
-	display_domain "$1" "web-01"
-	display_domain "$1" "web-02"
-
-else
-	display_domain "$1" "$2"
+	subd=("www" "lb-01" "web-01" "web-02")
+	for subdomain in "${subd[@]}"; do
+		record=$(dig $subdomain.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $4}')
+		ip=$(dig $subdomain.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $5}')
+		myecho $subdomain $record $ip
+	done
+elif [[ -n "$2" ]]
+then
+	record=$(dig $2.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $4}' )
+	ip=$(dig $2.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $5}')
+	myecho $2 $record $ip
 fi
