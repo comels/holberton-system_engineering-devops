@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Scrip that fix a container so that Nginx is running as the nginx user
-#!/usr/bin/env bash
-# runs nginx as user nginx instead of the default root.
+# Fix this container so that Nginx is running as the nginx user.
 pkill apache2
 chown nginx:nginx /etc/nginx/nginx.conf
 chmod 777 /etc/nginx/nginx.conf
