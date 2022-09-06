@@ -8,4 +8,4 @@
 # "f" : indication de la données à décompresser
 
 mysqldump -u root -p"$1" --all-databases > backup.sql
-tar czvf "$(date +%d-%m-%Y).tar.gz" backup.sql
+tar -czvf "$(date +%d-%m-%Y).tar.gz" backup.sql
