@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script that generates a MySQL dump and
+# creates a compressed archive out of it.
+
+# "x" : extraire une archive
+# "z" : permet de décompresser le "gzip"
+# "v" : mode verbeux , permet d'afficher dans le détail les fichiers décompressés
+# "f" : indication de la données à décompresser
+
+mysqldump -u root -p"$1" --all-databases > backup.sql
+tar czvf "$(date +%d-%m-%Y).tar.gz" backup.sql
