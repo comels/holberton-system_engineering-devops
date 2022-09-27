@@ -6,7 +6,7 @@ subreddit, the function should return None """
 import requests
 
 
-def recurse(subreddit, hot_list=[], after=""):    # sourcery skip: avoid-builtin-shadow, default-mutable-arg
+def recurse(subreddit, hot_list=[], after=""):
     """ Function recurse """
     user_agent = {'User-agent': 'comels'}
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
@@ -23,5 +23,7 @@ def recurse(subreddit, hot_list=[], after=""):    # sourcery skip: avoid-builtin
     for result in hot['children']:
         hot_list.append(result['data']['title'])
 
-    return recurse(subreddit, hot_list, after) if after is not None else hot_list
-
+    if after is not None:
+        return recurse(subreddit, hot_list, after)
+    else:
+        return hot_list
