@@ -1,27 +1,27 @@
 #!/usr/bin/python3
-"""This module defines the list of all subscribers on reddit"""
+""" Write a recursive function that queries the Reddit API
+and returns a list containing the titles of all hot articles
+for a given subreddit. If no results are found for the given
+subreddit, the function should return None """
 import requests
 
 
 def recurse(subreddit, hot_list=[], after=""):
-    """This method requests the api reddit to return a list containing
-    the title of all article for a given subreddit"""
-    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {'User-Agent': 'elodieriou3685'}
-    params = {'after': after,
-              'limit': 100}
-
-    req_reddit = requests.get(url,
-                              headers=headers,
-                              params=params,
-                              allow_redirects=False)
-    if req_reddit.status_code > 300:
+    """ Function recurse """
+    user_agent = {'User-agent': 'comels'}
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    req = requests.get(url,
+                       headers=user_agent,
+                       allow_redirects=False,
+                       params={'after': after})
+    if req.status_code == 404:
         return None
 
-    hot = req_reddit.json().get('data')
-    after = hot.get('after')
-    for result in hot.get('children'):
-        hot_list.append(result.get('data').get('title'))
+    hot = req.json()['data']
+    after = hot['after']
+
+    for result in hot['children']:
+        hot_list.append(result['data']['title'])
 
     if after is not None:
         return recurse(subreddit, hot_list, after)
