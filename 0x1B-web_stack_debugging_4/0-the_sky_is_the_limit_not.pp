@@ -1,11 +1,11 @@
-# Upgrade requests
+# Upgrade limit requests
 
-exec { 'change_default':
+exec { 'ulimit':
   command => 'sed -i s/15/2000/ /etc/default/nginx',
-  path    =>  [ '/bin/', '/usr/sbin/' ]
+  path    =>  [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
 } ->
 
 exec { 'restart':
   command => 'sudo service nginx restart',
-  path    =>  [ '/bin/', '/usr/sbin/' ]
+  path    =>  [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
 }
